@@ -1,0 +1,104 @@
+<?php
+
+use Specdocular\LaravelRulesToSchema\Contracts\HasJsonSchema;
+use Specdocular\LaravelRulesToSchema\CustomRuleSchemaMapping;
+use Specdocular\LaravelRulesToSchema\NestedRuleset;
+use Specdocular\LaravelRulesToSchema\Parsers\CustomRuleSchemaParser;
+use Specdocular\LaravelRulesToSchema\ValidationRule;
+use Specdocular\JsonSchema\Draft202012\Keywords\Type;
+use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
+
+describe(class_basename(CustomRuleSchemaParser::class), function (): void {
+    it('applies schema from rule implementing HasJsonSchema', function (): void {
+        $parser = new CustomRuleSchemaParser();
+        $rule = new class implements HasJsonSchema {
+            public function toJsonSchema(string $attribute): LooseFluentDescriptor
+            {
+                return LooseFluentDescriptor::withoutSchema()->type(Type::string())->description('from-rule');
+            }
+        };
+        $schema = LooseFluentDescriptor::withoutSchema();
+
+        $result = $parser('field', $schema, [new ValidationRule($rule)], new NestedRuleset());
+
+        $compiled = $result->schema()->compile();
+        expect($compiled['type'])->toBe('string')
+            ->and($compiled['description'])->toBe('from-rule');
+    });
+
+    it('applies schema provider from config mapping', function (): void {
+        $providerClass = 'Tests\StubCustomSchemaProvider_' . mt_rand();
+        eval('namespace Tests; final class ' . substr($providerClass, 6) . " implements \Specdocular\LaravelRulesToSchema\Contracts\HasJsonSchema { public function toJsonSchema(string \$attribute): \Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor { return \Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor::withoutSchema()->type(\Specdocular\JsonSchema\Draft202012\Keywords\Type::integer())->description('from-config'); } }");
+
+        $parser = new CustomRuleSchemaParser([
+            $providerClass => CustomRuleSchemaMapping::schemaProvider($providerClass),
+        ]);
+        $schema = LooseFluentDescriptor::withoutSchema();
+
+        $result = $parser('field', $schema, [new ValidationRule($providerClass)], new NestedRuleset());
+
+        $compiled = $result->schema()->compile();
+        expect($compiled['type'])->toBe('integer')
+            ->and($compiled['description'])->toBe('from-config');
+    });
+
+    it('applies single type from config mapping', function (): void {
+        $parser = new CustomRuleSchemaParser([
+            'custom_rule' => CustomRuleSchemaMapping::type('string'),
+        ]);
+        $schema = LooseFluentDescriptor::withoutSchema();
+
+        $result = $parser('field', $schema, [new ValidationRule('custom_rule')], new NestedRuleset());
+
+        expect($result->schema()->compile()['type'])->toBe('string');
+    });
+
+    it('applies multiple types from config mapping', function (): void {
+        $parser = new CustomRuleSchemaParser([
+            'custom_rule' => CustomRuleSchemaMapping::types(['null', 'string']),
+        ]);
+        $schema = LooseFluentDescriptor::withoutSchema();
+
+        $result = $parser('field', $schema, [new ValidationRule('custom_rule')], new NestedRuleset());
+
+        expect($result->schema()->compile()['type'])->toBe(['null', 'string']);
+    });
+
+    it('does not modify schema for unmatched rules', function (): void {
+        $parser = new CustomRuleSchemaParser([
+            'other_rule' => CustomRuleSchemaMapping::type('string'),
+        ]);
+        $schema = LooseFluentDescriptor::withoutSchema();
+
+        $result = $parser('field', $schema, [new ValidationRule('required')], new NestedRuleset());
+
+        expect($result->schema()->compile())->toBe([]);
+    });
+
+    it('returns schema unchanged with no custom schemas configured', function (): void {
+        $parser = new CustomRuleSchemaParser();
+        $schema = LooseFluentDescriptor::withoutSchema();
+
+        $result = $parser('field', $schema, [new ValidationRule('required')], new NestedRuleset());
+
+        expect($result->schema()->compile())->toBe([]);
+    });
+
+    it('prioritizes HasJsonSchema rule over config mapping', function (): void {
+        $rule = new class implements HasJsonSchema {
+            public function toJsonSchema(string $attribute): LooseFluentDescriptor
+            {
+                return LooseFluentDescriptor::withoutSchema()->type(Type::boolean());
+            }
+        };
+
+        $parser = new CustomRuleSchemaParser([
+            get_class($rule) => CustomRuleSchemaMapping::type('string'),
+        ]);
+        $schema = LooseFluentDescriptor::withoutSchema();
+
+        $result = $parser('field', $schema, [new ValidationRule($rule)], new NestedRuleset());
+
+        expect($result->schema()->compile()['type'])->toBe('boolean');
+    });
+})->covers(CustomRuleSchemaParser::class);

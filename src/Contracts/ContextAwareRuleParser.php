@@ -1,0 +1,19 @@
+<?php
+
+namespace Specdocular\LaravelRulesToSchema\Contracts;
+
+use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
+
+interface ContextAwareRuleParser extends RuleParser
+{
+    /**
+     * @param array<string, \Specdocular\LaravelRulesToSchema\NestedRuleset> $allRules
+     */
+    public function withContext(LooseFluentDescriptor $baseSchema, array $allRules, string|null $request): static;
+
+    /**
+     * Returns a modified base schema if this parser needs to alter the root schema
+     * (e.g., adding allOf conditions). The orchestrator reads this after each invocation.
+     */
+    public function modifiedBaseSchema(): LooseFluentDescriptor|null;
+}

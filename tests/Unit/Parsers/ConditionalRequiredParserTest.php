@@ -1,0 +1,166 @@
+<?php
+
+use Specdocular\LaravelRulesToSchema\NestedRuleset;
+use Specdocular\LaravelRulesToSchema\Parsers\ConditionalRequiredParser;
+use Specdocular\LaravelRulesToSchema\ValidationRule;
+use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
+
+describe(class_basename(ConditionalRequiredParser::class), function (): void {
+    it('generates if/then for required_if rule', function (): void {
+        $parser = new ConditionalRequiredParser();
+        $baseSchema = LooseFluentDescriptor::withoutSchema();
+        $allRules = [
+            'name' => new NestedRuleset([new ValidationRule('string'), new ValidationRule('required_if', ['role', 'admin'])]),
+        ];
+
+        $contextual = $parser->withContext($baseSchema, $allRules, null);
+        $schema = LooseFluentDescriptor::withoutSchema();
+
+        $result = $contextual('name', $schema, [new ValidationRule('string'), new ValidationRule('required_if', ['role', 'admin'])], new NestedRuleset());
+
+        $compiled = $result->schema()->compile();
+
+        expect($compiled)->toHaveKey('if')
+            ->and($compiled['if']['properties']['role'])->toBe(['const' => 'admin'])
+            ->and($compiled['then'])->toBe(['properties' => ['name' => []], 'required' => ['name']]);
+    });
+
+    it('generates if/then for required_unless rule', function (): void {
+        $parser = new ConditionalRequiredParser();
+        $baseSchema = LooseFluentDescriptor::withoutSchema();
+        $allRules = [
+            'name' => new NestedRuleset([new ValidationRule('string'), new ValidationRule('required_unless', ['role', 'guest'])]),
+        ];
+
+        $contextual = $parser->withContext($baseSchema, $allRules, null);
+        $schema = LooseFluentDescriptor::withoutSchema();
+
+        $result = $contextual('name', $schema, [new ValidationRule('string'), new ValidationRule('required_unless', ['role', 'guest'])], new NestedRuleset());
+
+        $compiled = $result->schema()->compile();
+
+        expect($compiled)->toHaveKey('if')
+            ->and($compiled['if']['properties']['role'])->toBe(['const' => 'guest'])
+            ->and($compiled['else'])->toBe(['properties' => ['name' => []], 'required' => ['name']]);
+    });
+
+    it('generates if/then for required_with_all rule', function (): void {
+        $parser = new ConditionalRequiredParser();
+        $baseSchema = LooseFluentDescriptor::withoutSchema();
+        $allRules = [
+            'city' => new NestedRuleset([new ValidationRule('string'), new ValidationRule('required_with_all', ['street', 'zip'])]),
+        ];
+
+        $contextual = $parser->withContext($baseSchema, $allRules, null);
+        $schema = LooseFluentDescriptor::withoutSchema();
+
+        $result = $contextual('city', $schema, [new ValidationRule('string'), new ValidationRule('required_with_all', ['street', 'zip'])], new NestedRuleset());
+
+        $compiled = $result->schema()->compile();
+
+        expect($compiled)->toHaveKey('if')
+            ->and($compiled['if'])->toBe(['properties' => ['street' => [], 'zip' => []], 'required' => ['street', 'zip']])
+            ->and($compiled['then'])->toBe(['properties' => ['city' => []], 'required' => ['city']]);
+    });
+
+    it('generates if/then for required_without_all rule', function (): void {
+        $parser = new ConditionalRequiredParser();
+        $baseSchema = LooseFluentDescriptor::withoutSchema();
+        $allRules = [
+            'email' => new NestedRuleset([new ValidationRule('string'), new ValidationRule('required_without_all', ['phone', 'fax'])]),
+        ];
+
+        $contextual = $parser->withContext($baseSchema, $allRules, null);
+        $schema = LooseFluentDescriptor::withoutSchema();
+
+        $result = $contextual('email', $schema, [new ValidationRule('string'), new ValidationRule('required_without_all', ['phone', 'fax'])], new NestedRuleset());
+
+        $compiled = $result->schema()->compile();
+
+        expect($compiled)->toHaveKey('if')
+            ->and($compiled['then'])->toBe(['properties' => ['email' => []], 'required' => ['email']]);
+    });
+
+    it('generates if/then for required_if_accepted rule', function (): void {
+        $parser = new ConditionalRequiredParser();
+        $baseSchema = LooseFluentDescriptor::withoutSchema();
+        $allRules = [
+            'reason' => new NestedRuleset([new ValidationRule('string'), new ValidationRule('required_if_accepted', ['terms'])]),
+        ];
+
+        $contextual = $parser->withContext($baseSchema, $allRules, null);
+        $schema = LooseFluentDescriptor::withoutSchema();
+
+        $result = $contextual('reason', $schema, [new ValidationRule('string'), new ValidationRule('required_if_accepted', ['terms'])], new NestedRuleset());
+
+        $compiled = $result->schema()->compile();
+
+        expect($compiled)->toHaveKey('if')
+            ->and($compiled['if']['properties']['terms'])->toBe(['const' => true])
+            ->and($compiled['then'])->toBe(['properties' => ['reason' => []], 'required' => ['reason']]);
+    });
+
+    it('generates if/then for required_if_declined rule', function (): void {
+        $parser = new ConditionalRequiredParser();
+        $baseSchema = LooseFluentDescriptor::withoutSchema();
+        $allRules = [
+            'reason' => new NestedRuleset([new ValidationRule('string'), new ValidationRule('required_if_declined', ['agree'])]),
+        ];
+
+        $contextual = $parser->withContext($baseSchema, $allRules, null);
+        $schema = LooseFluentDescriptor::withoutSchema();
+
+        $result = $contextual('reason', $schema, [new ValidationRule('string'), new ValidationRule('required_if_declined', ['agree'])], new NestedRuleset());
+
+        $compiled = $result->schema()->compile();
+
+        expect($compiled)->toHaveKey('if')
+            ->and($compiled['if']['properties']['agree'])->toBe(['const' => false])
+            ->and($compiled['then'])->toBe(['properties' => ['reason' => []], 'required' => ['reason']]);
+    });
+
+    it('does not modify schema when no conditional required rules exist', function (): void {
+        $parser = new ConditionalRequiredParser();
+        $baseSchema = LooseFluentDescriptor::withoutSchema();
+        $allRules = [
+            'name' => new NestedRuleset([new ValidationRule('string'), new ValidationRule('required')]),
+        ];
+
+        $contextual = $parser->withContext($baseSchema, $allRules, null);
+        $schema = LooseFluentDescriptor::withoutSchema();
+
+        $result = $contextual('name', $schema, [new ValidationRule('string'), new ValidationRule('required')], new NestedRuleset());
+
+        $compiled = $result->schema()->compile();
+
+        expect($compiled)->not->toHaveKey('if');
+    });
+
+    it('returns schema unchanged without context', function (): void {
+        $parser = new ConditionalRequiredParser();
+        $schema = LooseFluentDescriptor::withoutSchema();
+
+        $result = $parser('field', $schema, [new ValidationRule('required_if', ['role', 'admin'])], new NestedRuleset());
+
+        $compiled = $result->schema()->compile();
+
+        expect($compiled)->not->toHaveKey('if');
+    });
+
+    it('handles required_if with multiple value pairs', function (): void {
+        $parser = new ConditionalRequiredParser();
+        $baseSchema = LooseFluentDescriptor::withoutSchema();
+        $allRules = [
+            'name' => new NestedRuleset([new ValidationRule('required_if', ['role', 'admin', 'role', 'super'])]),
+        ];
+
+        $contextual = $parser->withContext($baseSchema, $allRules, null);
+        $schema = LooseFluentDescriptor::withoutSchema();
+
+        $result = $contextual('name', $schema, [new ValidationRule('required_if', ['role', 'admin', 'role', 'super'])], new NestedRuleset());
+
+        $compiled = $result->schema()->compile();
+
+        expect($compiled)->toHaveKey('if');
+    });
+})->covers(ConditionalRequiredParser::class);

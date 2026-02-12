@@ -1,0 +1,9 @@
+/.idea/
+/node_modules/
+/vendor/
+.bash_aliases
+/temp
+.env
+.env.*
+.DS_Store
+*.log

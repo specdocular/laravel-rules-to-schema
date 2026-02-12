@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<ruleset name="PHP_CodeSniffer"
+         xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 https://pmd.sf.net/ruleset_xml_schema.xsd"
+         xsi:noNamespaceSchemaLocation="https://pmd.sf.net/ruleset_xml_schema.xsd">
+    <description>PHP_CodeSniffer configuration</description>
+    <arg name="extensions" value="php" />
+    <file>./src</file>
+    <file>./tests</file>
+
+    <rule ref="PSR12"/>
+    <rule ref="SlevomatCodingStandard.Commenting.AnnotationName"/>
+    <rule ref="SlevomatCodingStandard.Commenting.DeprecatedAnnotationDeclaration"/>
+    <rule ref="SlevomatCodingStandard.Commenting.ForbiddenAnnotations"/>
+    <rule ref="SlevomatCodingStandard.Commenting.EmptyComment"/>
+    <rule ref="SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration"/>
+    <rule ref="SlevomatCodingStandard.Commenting.RequireOneLinePropertyDocComment"/>
+    <rule ref="SlevomatCodingStandard.Commenting.RequireOneLineDocComment"/>
+    <rule ref="SlevomatCodingStandard.Commenting.UselessFunctionDocComment"/>
+    <rule ref="SlevomatCodingStandard.Commenting.UselessInheritDocComment"/>
+</ruleset>
