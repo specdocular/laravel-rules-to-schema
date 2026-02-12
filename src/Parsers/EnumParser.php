@@ -3,12 +3,11 @@
 namespace Specdocular\LaravelRulesToSchema\Parsers;
 
 use Illuminate\Validation\Rules\Enum as EnumRule;
+use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 use Specdocular\LaravelRulesToSchema\Contracts\RuleParser;
 use Specdocular\LaravelRulesToSchema\LaravelRuleInternals;
 use Specdocular\LaravelRulesToSchema\NestedRuleset;
 use Specdocular\LaravelRulesToSchema\ParseResult;
-use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
-use ReflectionClass;
 
 final readonly class EnumParser implements RuleParser
 {
@@ -21,7 +20,7 @@ final readonly class EnumParser implements RuleParser
         foreach ($validationRules as $validationRule) {
             if ($validationRule->rule instanceof EnumRule) {
                 $enumType = LaravelRuleInternals::enumType($validationRule->rule);
-                $reflection = new ReflectionClass($enumType);
+                $reflection = new \ReflectionClass($enumType);
 
                 if (count($reflection->getConstants()) > 0) {
                     $values = array_values(array_map(

@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Validation\Rules\NotIn;
+use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 use Specdocular\LaravelRulesToSchema\NestedRuleset;
 use Specdocular\LaravelRulesToSchema\Parsers\NotInParser;
 use Specdocular\LaravelRulesToSchema\ValidationRule;
-use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 
 describe(class_basename(NotInParser::class), function (): void {
     it('sets not enum for not_in string rule', function (): void {

@@ -1,9 +1,9 @@
 <?php
 
+use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 use Specdocular\LaravelRulesToSchema\NestedRuleset;
 use Specdocular\LaravelRulesToSchema\Parsers\PresentFieldParser;
 use Specdocular\LaravelRulesToSchema\ValidationRule;
-use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 
 describe(class_basename(PresentFieldParser::class), function (): void {
     it('adds field to required for present rule', function (): void {

@@ -1,9 +1,9 @@
 <?php
 
+use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 use Specdocular\LaravelRulesToSchema\NestedRuleset;
 use Specdocular\LaravelRulesToSchema\Parsers\ConditionalAcceptedParser;
 use Specdocular\LaravelRulesToSchema\ValidationRule;
-use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 
 describe(class_basename(ConditionalAcceptedParser::class), function (): void {
     it('generates if/then for accepted_if rule', function (): void {

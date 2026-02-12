@@ -1,9 +1,9 @@
 <?php
 
+use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 use Specdocular\LaravelRulesToSchema\NestedRuleset;
 use Specdocular\LaravelRulesToSchema\Parsers\FileUploadParser;
 use Specdocular\LaravelRulesToSchema\ValidationRule;
-use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 
 describe(class_basename(FileUploadParser::class), function (): void {
     it('sets type string and format binary for file rule', function (): void {

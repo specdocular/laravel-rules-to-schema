@@ -1,9 +1,9 @@
 <?php
 
-use Specdocular\LaravelRulesToSchema\Contracts\HasJsonSchema;
-use Specdocular\LaravelRulesToSchema\CustomRuleSchemaMapping;
 use Specdocular\JsonSchema\Draft202012\Keywords\Type;
 use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
+use Specdocular\LaravelRulesToSchema\Contracts\HasJsonSchema;
+use Specdocular\LaravelRulesToSchema\CustomRuleSchemaMapping;
 
 describe(class_basename(CustomRuleSchemaMapping::class), function (): void {
     it('creates schema provider mapping', function (): void {

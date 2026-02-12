@@ -1,10 +1,10 @@
 <?php
 
+use Specdocular\JsonSchema\Draft202012\Keywords\Type;
+use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 use Specdocular\LaravelRulesToSchema\NestedRuleset;
 use Specdocular\LaravelRulesToSchema\Parsers\ComparisonConstraintParser;
 use Specdocular\LaravelRulesToSchema\ValidationRule;
-use Specdocular\JsonSchema\Draft202012\Keywords\Type;
-use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 
 describe(class_basename(ComparisonConstraintParser::class), function (): void {
     it('sets minLength and maxLength for between rule on string type', function (): void {

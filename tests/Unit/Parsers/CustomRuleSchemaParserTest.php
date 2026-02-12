@@ -1,12 +1,12 @@
 <?php
 
+use Specdocular\JsonSchema\Draft202012\Keywords\Type;
+use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 use Specdocular\LaravelRulesToSchema\Contracts\HasJsonSchema;
 use Specdocular\LaravelRulesToSchema\CustomRuleSchemaMapping;
 use Specdocular\LaravelRulesToSchema\NestedRuleset;
 use Specdocular\LaravelRulesToSchema\Parsers\CustomRuleSchemaParser;
 use Specdocular\LaravelRulesToSchema\ValidationRule;
-use Specdocular\JsonSchema\Draft202012\Keywords\Type;
-use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 
 describe(class_basename(CustomRuleSchemaParser::class), function (): void {
     it('applies schema from rule implementing HasJsonSchema', function (): void {

@@ -1,11 +1,11 @@
 <?php
 
-use Specdocular\LaravelRulesToSchema\NestedRuleset;
-use Specdocular\LaravelRulesToSchema\Parsers\RequiredWithoutParser;
-use Specdocular\LaravelRulesToSchema\ValidationRule;
 use Specdocular\JsonSchema\Draft202012\Keywords\Properties\Property;
 use Specdocular\JsonSchema\Draft202012\Keywords\Type;
 use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
+use Specdocular\LaravelRulesToSchema\NestedRuleset;
+use Specdocular\LaravelRulesToSchema\Parsers\RequiredWithoutParser;
+use Specdocular\LaravelRulesToSchema\ValidationRule;
 
 describe(class_basename(RequiredWithoutParser::class), function (): void {
     it('adds if/then conditions for mutual required_without', function (): void {

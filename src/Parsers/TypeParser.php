@@ -4,14 +4,13 @@ namespace Specdocular\LaravelRulesToSchema\Parsers;
 
 use Illuminate\Validation\Rules\Enum as EnumRule;
 use Illuminate\Validation\Rules\In as InRule;
+use Specdocular\JsonSchema\Draft202012\Keywords\Type;
+use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 use Specdocular\LaravelRulesToSchema\Contracts\RuleParser;
 use Specdocular\LaravelRulesToSchema\LaravelRuleInternals;
 use Specdocular\LaravelRulesToSchema\LaravelRuleType;
 use Specdocular\LaravelRulesToSchema\NestedRuleset;
 use Specdocular\LaravelRulesToSchema\ParseResult;
-use Specdocular\JsonSchema\Draft202012\Keywords\Type;
-use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
-use ReflectionClass;
 
 final class TypeParser implements RuleParser
 {
@@ -57,7 +56,7 @@ final class TypeParser implements RuleParser
     }
 
     /** @return list<Type> */
-    private function parseInRuleTypes(mixed $ruleName, ?array $args): array
+    private function parseInRuleTypes(mixed $ruleName, array|null $args): array
     {
         $values = null;
 
@@ -114,7 +113,7 @@ final class TypeParser implements RuleParser
     private function parseEnumRuleTypes(EnumRule $rule): array
     {
         $enumType = LaravelRuleInternals::enumType($rule);
-        $reflection = new ReflectionClass($enumType);
+        $reflection = new \ReflectionClass($enumType);
 
         if (
             $reflection->implementsInterface(\BackedEnum::class)

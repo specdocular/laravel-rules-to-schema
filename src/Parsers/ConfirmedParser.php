@@ -2,10 +2,10 @@
 
 namespace Specdocular\LaravelRulesToSchema\Parsers;
 
+use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 use Specdocular\LaravelRulesToSchema\Contracts\RuleParser;
 use Specdocular\LaravelRulesToSchema\NestedRuleset;
 use Specdocular\LaravelRulesToSchema\ParseResult;
-use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 
 final readonly class ConfirmedParser implements RuleParser
 {

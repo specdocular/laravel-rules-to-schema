@@ -3,7 +3,6 @@
 namespace Specdocular\LaravelRulesToSchema;
 
 use Illuminate\Validation\ValidationRuleParser;
-use ReflectionClass;
 
 final class ValidationRuleNormalizer
 {
@@ -99,7 +98,7 @@ final class ValidationRuleNormalizer
     private function splitStringToRuleset(string $rules): array
     {
         $parser = new ValidationRuleParser([]);
-        $method = (new ReflectionClass($parser))->getMethod('explodeExplicitRule');
+        $method = (new \ReflectionClass($parser))->getMethod('explodeExplicitRule');
         $method->setAccessible(true);
 
         return $method->invokeArgs($parser, [$rules, null]);
@@ -108,7 +107,7 @@ final class ValidationRuleNormalizer
     private function parseStringRuleArgs(string $rule): ValidationRule
     {
         $parser = new ValidationRuleParser([]);
-        $method = (new ReflectionClass($parser))->getMethod('parseParameters');
+        $method = (new \ReflectionClass($parser))->getMethod('parseParameters');
         $method->setAccessible(true);
 
         $parameters = [];

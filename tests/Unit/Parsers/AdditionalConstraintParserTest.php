@@ -1,10 +1,10 @@
 <?php
 
+use Specdocular\JsonSchema\Draft202012\Keywords\Type;
+use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 use Specdocular\LaravelRulesToSchema\NestedRuleset;
 use Specdocular\LaravelRulesToSchema\Parsers\AdditionalConstraintParser;
 use Specdocular\LaravelRulesToSchema\ValidationRule;
-use Specdocular\JsonSchema\Draft202012\Keywords\Type;
-use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 
 describe(class_basename(AdditionalConstraintParser::class), function (): void {
     it('sets format uri for active_url rule', function (): void {

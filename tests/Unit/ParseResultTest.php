@@ -1,7 +1,7 @@
 <?php
 
-use Specdocular\LaravelRulesToSchema\ParseResult;
 use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
+use Specdocular\LaravelRulesToSchema\ParseResult;
 
 describe(class_basename(ParseResult::class), function (): void {
     it('creates schema result', function (): void {

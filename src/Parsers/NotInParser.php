@@ -3,10 +3,10 @@
 namespace Specdocular\LaravelRulesToSchema\Parsers;
 
 use Illuminate\Validation\Rules\NotIn;
+use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 use Specdocular\LaravelRulesToSchema\Contracts\RuleParser;
 use Specdocular\LaravelRulesToSchema\NestedRuleset;
 use Specdocular\LaravelRulesToSchema\ParseResult;
-use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 
 final readonly class NotInParser implements RuleParser
 {

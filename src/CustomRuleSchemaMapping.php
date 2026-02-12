@@ -2,8 +2,8 @@
 
 namespace Specdocular\LaravelRulesToSchema;
 
-use Specdocular\LaravelRulesToSchema\Contracts\HasJsonSchema;
 use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
+use Specdocular\LaravelRulesToSchema\Contracts\HasJsonSchema;
 
 final readonly class CustomRuleSchemaMapping
 {
@@ -49,9 +49,7 @@ final readonly class CustomRuleSchemaMapping
             return self::type($value);
         }
 
-        throw new \InvalidArgumentException(
-            'Custom rule schema mapping must be a class-string, type string, or array of types. Got: ' . get_debug_type($value),
-        );
+        throw new \InvalidArgumentException('Custom rule schema mapping must be a class-string, type string, or array of types. Got: ' . get_debug_type($value));
     }
 
     public function isSchemaProvider(): bool

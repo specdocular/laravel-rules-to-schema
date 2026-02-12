@@ -2,14 +2,14 @@
 
 namespace Specdocular\LaravelRulesToSchema\Parsers;
 
-use Specdocular\LaravelRulesToSchema\Concerns\TracksParserContext;
-use Specdocular\LaravelRulesToSchema\Contracts\ContextAwareRuleParser;
-use Specdocular\LaravelRulesToSchema\NestedRuleset;
-use Specdocular\LaravelRulesToSchema\ParseResult;
 use Specdocular\JsonSchema\Draft202012\BooleanSchema;
 use Specdocular\JsonSchema\Draft202012\Keywords\Properties\Property;
 use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 use Specdocular\JsonSchema\Draft202012\StrictFluentDescriptor;
+use Specdocular\LaravelRulesToSchema\Concerns\TracksParserContext;
+use Specdocular\LaravelRulesToSchema\Contracts\ContextAwareRuleParser;
+use Specdocular\LaravelRulesToSchema\NestedRuleset;
+use Specdocular\LaravelRulesToSchema\ParseResult;
 
 final class ConditionalProhibitedParser implements ContextAwareRuleParser
 {

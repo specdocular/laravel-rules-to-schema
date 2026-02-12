@@ -1,9 +1,9 @@
 <?php
 
+use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 use Specdocular\LaravelRulesToSchema\NestedRuleset;
 use Specdocular\LaravelRulesToSchema\Parsers\CustomRuleDocsParser;
 use Specdocular\LaravelRulesToSchema\ValidationRule;
-use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 use Tests\Support\Doubles\Rules\DocumentedRule;
 use Tests\Support\Doubles\Rules\EnumDocumentedRule;
 use Tests\Support\Doubles\Rules\UndocumentedRule;

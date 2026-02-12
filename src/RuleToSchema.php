@@ -2,14 +2,13 @@
 
 namespace Specdocular\LaravelRulesToSchema;
 
+use Specdocular\JsonSchema\Draft202012\Keywords\Properties\Property;
+use Specdocular\JsonSchema\Draft202012\Keywords\Type;
+use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
 use Specdocular\LaravelRulesToSchema\Contracts\ContextAwareRuleParser;
 use Specdocular\LaravelRulesToSchema\Contracts\RuleParser;
 use Specdocular\LaravelRulesToSchema\Parsers\CustomRuleSchemaParser;
 use Specdocular\LaravelRulesToSchema\Parsers\NestedObjectParser;
-use Specdocular\JsonSchema\Draft202012\Keywords\Properties\Property;
-use Specdocular\JsonSchema\Draft202012\Keywords\Type;
-use Specdocular\JsonSchema\Draft202012\LooseFluentDescriptor;
-
 
 final class RuleToSchema
 {
