@@ -5,6 +5,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/specdocular/laravel-rules-to-schema.svg)](https://packagist.org/packages/specdocular/laravel-rules-to-schema)
 [![PHP Version](https://img.shields.io/packagist/php-v/specdocular/laravel-rules-to-schema.svg)](https://packagist.org/packages/specdocular/laravel-rules-to-schema)
 [![License](https://img.shields.io/packagist/l/specdocular/laravel-rules-to-schema.svg)](https://packagist.org/packages/specdocular/laravel-rules-to-schema)
+[![codecov](https://codecov.io/gh/specdocular/laravel-rules-to-schema/graph/badge.svg)](https://codecov.io/gh/specdocular/laravel-rules-to-schema)
 
 Convert Laravel validation rules into [JSON Schema Draft 2020-12](https://json-schema.org/draft/2020-12/json-schema-core) definitions.
 
