@@ -67,7 +67,7 @@ jobs:
         run: composer install --prefer-dist --no-interaction --optimize-autoloader
 
       - name: Execute tests with coverage
-        run: ./vendor/bin/pest --ci --coverage-clover=coverage.xml
+        run: ./vendor/bin/pest --ci --coverage-clover=coverage.xml --log-junit junit.xml
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
@@ -77,3 +77,9 @@ jobs:
           verbose: true
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
