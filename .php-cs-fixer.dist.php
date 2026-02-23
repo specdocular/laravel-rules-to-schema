@@ -20,6 +20,9 @@ return (new PhpCsFixer\Config())
         'phpdoc_align' => [
             'align' => 'left',
         ],
+        'phpdoc_to_comment' => [
+            'ignored_tags' => ['var'],
+        ],
         'trailing_comma_in_multiline' => [
             'elements' => ['arguments', 'arrays', 'match', 'parameters'],
         ],
